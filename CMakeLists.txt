@@ -20,16 +20,12 @@ target_include_directories(dotenv INTERFACE
 
 target_compile_features(dotenv INTERFACE cxx_std_23)
 
-# ------------------------
-# example
-# ------------------------
-add_executable(example example/main.cpp)
-target_link_libraries(example PRIVATE dotenv)
-
-# ------------------------
-# tests
-# ------------------------
 if (PROJECT_IS_TOP_LEVEL)
+    # example
+    add_executable(example example/main.cpp)
+    target_link_libraries(example PRIVATE dotenv)
+
+    # tests
     find_package(GTest REQUIRED)
     enable_testing()
 
