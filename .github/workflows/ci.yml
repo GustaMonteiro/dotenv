@@ -1,0 +1,46 @@
+name: Build, Check & Run Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake python3-pip
+
+      - name: Install CMake 4.2.0
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '4.2.0'
+
+      - name: Verify CMake version
+        run: cmake --version
+
+      - name: Install Conan
+        run: |
+          pip3 install --upgrade conan
+
+      - name: Configure Conan
+        run: |
+          conan profile detect
+          sed -i 's/compiler.cppstd=gnu17/compiler.cppstd=23/' ~/.conan2/profiles/default
+          conan profile show
+
+      - name: Make build script executable
+        run: chmod +x ./build.sh
+
+      - name: Build and run tests
+        run: ./build.sh test
