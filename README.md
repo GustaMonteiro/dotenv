@@ -27,7 +27,7 @@
 * **Zero dependencies**
 * **No exceptions**, uses `std::expected`
 * **Auto-trim, skip comments, strip quotes**
-* **Typed getters** (`int`, `double`, `bool`, `string`)
+* **Typed getters** (`int`, `double`, `string`)
 * **GoogleTest test suite**
 * **Works with FetchContent, CMake install**
 
@@ -67,7 +67,7 @@ SPACED=  some value
 ## **main.cpp**
 
 ```cpp
-#include <dotenv.hpp>
+#include <dotenv/dotenv.hpp>
 #include <iostream>
 #include <format>
 
@@ -76,7 +76,6 @@ int main() {
 
     std::cout << "PORT = "   << dotenv::get<int>("PORT").value_or(-1) << "\n";
     std::cout << "HOST = "   << dotenv::get<std::string>("HOST").value_or("undefined") << "\n";
-    std::cout << "DEBUG = "  << dotenv::get<bool>("DEBUG").value_or(false) << "\n";
     std::cout << "TIMEOUT = "<< dotenv::get<double>("TIMEOUT").value_or(0.0) << "\n";
 
     return 0;
@@ -96,7 +95,6 @@ dotenv::load(".env");
 ```cpp
 dotenv::get<int>("PORT");
 dotenv::get<double>("TIMEOUT");
-dotenv::get<bool>("DEBUG");
 dotenv::get<std::string>("HOST");
 ```
 
