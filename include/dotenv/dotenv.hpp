@@ -1,6 +1,7 @@
 #pragma once
 #include <charconv>
 #include <concepts>
+#include <cstdlib>
 #include <fstream>
 #include <optional>
 #include <sstream>
@@ -92,7 +93,11 @@ namespace dotenv {
                     detail::trim_copy(line.substr(pos + 1)));
 
                 vars[key] = val;
+#ifdef _WIN32
+                _putenv_s(key.c_str(), val.c_str());
+#else
                 ::setenv(key.c_str(), val.c_str(), 1);
+#endif
             }
         }
 
